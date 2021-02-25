@@ -7,7 +7,7 @@
   >
 2) Insert an online meeting link (zoom/google meet/microsoft teams) 
     >                                                  
-3) Insert a google classroom link  to every of the AR classroom
+OR insert a google classroom link  to every of the AR classroom
  <!--END_SECTION:waka-->
     
 ## Notification
