@@ -5,9 +5,7 @@
 -<!--START_SECTION:waka-->
 1) App provides a selection of classroom designs for users to choose from)
   >
-2) Insert an online meeting link (zoom/google meet/microsoft teams) 
-    >                                                  
-OR insert a google classroom link  to every of the AR classroom
+2) Insert an online meeting link (zoom/google meet/microsoft teams) OR insert a google classroom link  to every of the AR classroom
  <!--END_SECTION:waka-->
     
 ## Notification
