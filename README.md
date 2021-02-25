@@ -1,5 +1,5 @@
 # AR school 🏫
-AR platform that have the visual look of a school. Inside it, there's different AR classrooms such as Science lab, english room, math rooms (Users can add as many classrooms as they want) and when users click in, it links the student to the following Google meet/zoom meetings (*Meeting link is filled in previously)
+AR platform that have the visual look of a school. Inside it, there's different AR classrooms such as Science lab, english room, math rooms (Users can add as many classrooms as they want) and when users click in, it links the student to the following Google meet/zoom meetings. The Meeting links is filled in by users previously.
 # Features ✨
 ## Customization (changes)
 - Users can make changes for the AR classroom designs
