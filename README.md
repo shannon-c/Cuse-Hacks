@@ -1,12 +1,15 @@
 # AR school 🏫
 ## Features ✨
 1) Customization (changes)
-Users can make changes for the AR classroom designs
+- Users can make changes for the AR classroom designs
+-<!--START_SECTION:waka-->
 > App provides a selection of classroom designs for users to choose from)
   >
 > Insert an online meeting link (zoom/google meet/microsoft teams) 
     >                                                  *OR*
     Insert a google classroom link  to every of the AR classroom
+ <!--END_SECTION:waka-->
+    
 2)Notification
 > App notifies user about their online classes (eg.By sending notifications)
 3) Space
