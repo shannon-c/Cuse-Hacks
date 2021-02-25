@@ -1,6 +1,6 @@
 # AR school 🏫
-## Features ✨
-1) Customization (changes)
+# Features ✨
+## Customization (changes)
 - Users can make changes for the AR classroom designs
 -<!--START_SECTION:waka-->
 > App provides a selection of classroom designs for users to choose from)
@@ -10,10 +10,10 @@
   OR Insert a google classroom link  to every of the AR classroom
  <!--END_SECTION:waka-->
     
-2)Notification
+## Notification
 > App notifies user about their online classes (eg.By sending notifications)
 
-3) Space
+## Space
 > Join a **public space**
   >
 -Only host/initial creators (eg. Teacher) can make changes in the school space
