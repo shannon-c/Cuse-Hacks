@@ -1,30 +1,123 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
-  runApp(leARn());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(application());
   SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(statusBarColor: Colors.deepOrange));
+    SystemUiOverlayStyle(
+      statusBarColor: Color.fromRGBO(0, 136, 170, 1),
+    ),
+  );
+}
+
+class application extends StatelessWidget {
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  FirebaseAuth.instance.authStateChanges().listen((User user) {
+    if (user == null) {
+      print('User is currently signed out!');
+    } else {
+      print('User is signed in!');
+    }
+  });
+
+  GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  var provider = new firebase.auth.GoogleAuthProvider();
+  
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: _initialization,
+      // ignore: missing_return
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          Navigator.pop(context);
+        }
+        if (snapshot.connectionState == ConnectionState.done) {
+          return mainscreen();
+        }
+      },
+    );
+  }
+}
+
+class mainscreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+        title: 'leARn',
+        home: Scaffold(
+            backgroundColor: Colors.white,
+            body: Column(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    margin: EdgeInsets.all(10.0),
+                    child: Image(image: AssetImage('assets/logos/logo.png')),
+                  ),
+                ),
+                login()
+              ],
+            )));
+  }
+}
+
+class login extends StatefulWidget {
+  @override
+  _loginState createState() => _loginState();
+}
+
+class _loginState extends State<login> {
+  final _formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: <Widget>[
+          Text('hi'),
+        ],
+      ),
+    );
+  }
 }
 
 // ignore: camel_case_types
 class leARn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'leARn',
-        home: Scaffold(
-          appBar: AppBar(
-            title: Text('leARn'),
-          ),
-          body: Column(
-            children: [
-              HeaderRow(),
-              ClassView(),
-              ClassListItem(),
-            ],
-          ),
-        ));
+    return Container(
+      margin: EdgeInsets.only(top: 50),
+      child: Column(
+        children: [
+          HeaderRow(),
+          ClassView(),
+          ClassListItem(),
+        ],
+      ),
+    );
   }
 }
 
@@ -36,7 +129,7 @@ class ClassView extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Container(
-            margin: EdgeInsets.all(5.0),
+            margin: EdgeInsets.all(10.0),
             child: Text(
               'Classes',
               style: TextStyle(
@@ -47,6 +140,32 @@ class ClassView extends StatelessWidget {
             ),
           ),
         ),
+      ],
+    );
+  }
+}
+
+class ClassList extends StatefulWidget {
+  @override
+  _ClassListState createState() => _ClassListState();
+}
+
+class _ClassListState extends State<ClassList> {
+  final List<ClassListItem> _classItem = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 1,
+          child: ListView.builder(
+            padding: EdgeInsets.all(8.0),
+            reverse: true,
+            itemBuilder: (_, int index) => _classItem[index],
+            itemCount: _classItem.length,
+          ),
+        )
       ],
     );
   }
@@ -153,4 +272,9 @@ class HeaderRow extends StatelessWidget {
       ],
     );
   }
+}
+
+void _onItemReceival() {
+  // put incoming json data into classlistitem
+  // push classlistitem into the listview
 }

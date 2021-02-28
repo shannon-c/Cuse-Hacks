@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "664682790817",
+    "project_id": "learn-85d67",
+    "storage_bucket": "learn-85d67.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664682790817:android:1e4d3a2fb8d4bf18a8d5e0",
+        "android_client_info": {
+          "package_name": "ca.learn.ar_classroom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664682790817-cas7cmjvgv1rjrmlllpcuaojtq6i7k6a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1T1fYlnfC-NWMyFlXIKQPjpn77EzK4W0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664682790817-cas7cmjvgv1rjrmlllpcuaojtq6i7k6a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
