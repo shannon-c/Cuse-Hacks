@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,16 +57,10 @@ class _firebaseauthState extends State<firebaseauth> {
 }
 
 class mainscreen extends StatelessWidget {
-  // FirebaseAuth.instance.authStateChanges().listen((User user) {
-  //   if (user == null) {
-  //     print('User is currently signed out!');
-  //   } else {
-  //     print('User is signed in!');
-  //   }
-  // });
-
   @override
   Widget build(BuildContext context) {
+    _firebaseauthState();
+
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseAuth.instance.authStateChanges().listen((User user) {
       if (user == null) {
@@ -107,13 +102,48 @@ class login extends StatefulWidget {
 class _loginState extends State<login> {
   final _formKey = GlobalKey<FormState>();
 
+  Future<UserCredential> signInWithGoogle() async {
+    // trigger auth flow
+    final GoogleSignInAccount googleSignInAccount =
+        await GoogleSignIn().signIn();
+
+    // obtain auth deets from req
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final GoogleAuthCredential googleAuthCredential =
+        GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    // once signed in, return the user cred
+    return await FirebaseAuth.instance
+        .signInWithCredential(googleAuthCredential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
         children: <Widget>[
-          Text('hi'),
+          Container(
+            margin: EdgeInsets.all(10.0),
+            child: InkWell(
+              onTap: () {
+                signInWithGoogle();
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text('Signing in!'),
+                ));
+              },
+              child: Image(
+                image: AssetImage('assets/icons/google_sign_in.png'),
+                fit: BoxFit.contain,
+                height: 50,
+              ),
+            ),
+          ),
         ],
       ),
     );
