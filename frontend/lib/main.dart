@@ -53,6 +53,10 @@ class ClassView extends StatelessWidget {
 }
 
 class ClassListItem extends StatelessWidget {
+  ClassListItem({this.classData});
+
+  final Object classData;
+
   @override
   Widget build(BuildContext context) {
     return Container(
