@@ -136,6 +136,8 @@ class _loginState extends State<login> {
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Signing in!'),
                 ));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => leARn()));
               },
               child: Image(
                 image: AssetImage('assets/icons/google_sign_in.png'),
@@ -154,14 +156,16 @@ class _loginState extends State<login> {
 class leARn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(top: 50),
-      child: Column(
-        children: [
-          HeaderRow(),
-          ClassView(),
-          ClassListItem(),
-        ],
+    return Scaffold(
+      body: Container(
+        margin: EdgeInsets.only(top: 50),
+        child: Column(
+          children: [
+            HeaderRow(),
+            ClassView(),
+            ClassListItem(),
+          ],
+        ),
       ),
     );
   }
