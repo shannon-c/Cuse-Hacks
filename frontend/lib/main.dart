@@ -56,10 +56,27 @@ class _firebaseauthState extends State<firebaseauth> {
 }
 
 class mainscreen extends StatelessWidget {
-  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+  // FirebaseAuth.instance.authStateChanges().listen((User user) {
+  //   if (user == null) {
+  //     print('User is currently signed out!');
+  //   } else {
+  //     print('User is signed in!');
+  //   }
+  // });
 
   @override
   Widget build(BuildContext context) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseAuth.instance.authStateChanges().listen((User user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        // do sign out things here...
+      } else {
+        print('User is signed in!');
+        // do sign in things here...
+      }
+    });
+
     return MaterialApp(
         title: 'leARn',
         home: Scaffold(
@@ -72,6 +89,9 @@ class mainscreen extends StatelessWidget {
                     margin: EdgeInsets.all(10.0),
                     child: Image(image: AssetImage('assets/logos/logo.png')),
                   ),
+                ),
+                SizedBox(
+                  height: 200,
                 ),
                 login()
               ],
