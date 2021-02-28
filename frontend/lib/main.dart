@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(application());
+
+  runApp(firebaseauth());
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: Color.fromRGBO(0, 136, 170, 1),
@@ -14,54 +14,50 @@ void main() {
   );
 }
 
-class application extends StatelessWidget {
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  FirebaseAuth auth = FirebaseAuth.instance;
+class firebaseauth extends StatefulWidget {
+  @override
+  _firebaseauthState createState() => _firebaseauthState();
+}
 
-  FirebaseAuth.instance.authStateChanges().listen((User user) {
-    if (user == null) {
-      print('User is currently signed out!');
-    } else {
-      print('User is signed in!');
-    }
-  });
+class _firebaseauthState extends State<firebaseauth> {
+  bool _initialized = false;
+  bool _error = false;
 
-  GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
-
-
-  Future<void> _handleSignIn() async {
+  void initializeFlutterFire() async {
     try {
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print(error);
+      await Firebase.initializeApp();
+      setState(() {
+        _initialized = true;
+      });
+    } catch (err) {
+      setState(() {
+        _error = true;
+      });
     }
   }
 
-  var provider = new firebase.auth.GoogleAuthProvider();
-  
+  @override
+  void initState() {
+    initializeFlutterFire();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _initialization,
-      // ignore: missing_return
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          Navigator.pop(context);
-        }
-        if (snapshot.connectionState == ConnectionState.done) {
-          return mainscreen();
-        }
-      },
-    );
+    if (_error) {
+      // show error message here
+    }
+    if (!_initialized) {
+      // show loader until flutterfire initialized
+    }
+
+    return mainscreen();
   }
 }
 
 class mainscreen extends StatelessWidget {
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
