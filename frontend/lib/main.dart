@@ -132,10 +132,11 @@ class _loginState extends State<login> {
             margin: EdgeInsets.all(10.0),
             child: InkWell(
               onTap: () {
-                signInWithGoogle();
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Signing in!'),
                 ));
+
+                signInWithGoogle();
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => leARn()));
               },
@@ -163,7 +164,11 @@ class leARn extends StatelessWidget {
           children: [
             HeaderRow(),
             ClassView(),
-            ClassListItem(),
+            ClassList(
+                panels: List.generate(
+                    1,
+                    (index) => Panel('Title', 'Days', 'Times',
+                        'https://i.ytimg.com/vi/9qnaJexpdrM/maxresdefault.jpg'))),
           ],
         ),
       ),
@@ -195,27 +200,28 @@ class ClassView extends StatelessWidget {
   }
 }
 
-class ClassList extends StatefulWidget {
-  @override
-  _ClassListState createState() => _ClassListState();
-}
+class ClassList extends StatelessWidget {
+  final List<Panel> panels;
 
-class _ClassListState extends State<ClassList> {
-  final List<ClassListItem> _classItem = [];
+  ClassList({Key key, @required this.panels}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
       children: [
         Expanded(
           flex: 1,
           child: ListView.builder(
             padding: EdgeInsets.all(8.0),
             reverse: true,
-            itemBuilder: (_, int index) => _classItem[index],
-            itemCount: _classItem.length,
+            itemBuilder: (context, index) {
+              return ClassListItem(
+                panel: panels[index],
+              );
+            },
+            itemCount: panels.length,
           ),
-        )
+        ),
       ],
     );
   }
@@ -223,6 +229,13 @@ class _ClassListState extends State<ClassList> {
 
 class ClassListItem extends StatelessWidget {
   @override
+  final Panel panel;
+
+  ClassListItem({
+    Key key,
+    @required this.panel,
+  }) : super(key: key);
+
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(10.0),
@@ -237,7 +250,7 @@ class ClassListItem extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.only(left: 10.0),
                     child: Text(
-                      'Advanced Mathematics',
+                      panel.title,
                       style: TextStyle(fontFamily: 'Poiret', fontSize: 35),
                     ),
                   ),
@@ -250,7 +263,7 @@ class ClassListItem extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.only(left: 10.0),
                     child: Text(
-                      'Mondays',
+                      panel.subtitle,
                       style: TextStyle(fontFamily: 'Poiret', fontSize: 25),
                     ),
                   ),
@@ -260,7 +273,7 @@ class ClassListItem extends StatelessWidget {
                   child: Container(
                     margin: EdgeInsets.only(left: 10.0),
                     child: Text(
-                      '6:30 - 9:30',
+                      panel.times,
                       style: TextStyle(fontFamily: 'Poiret', fontSize: 30),
                     ),
                   ),
@@ -273,8 +286,7 @@ class ClassListItem extends StatelessWidget {
             child: Container(
               margin: EdgeInsets.all(10.0),
               child: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://www.usnews.com/dims4/USNEWS/9b4381c/2147483647/thumbnail/640x420/quality/85/?url=http%3A%2F%2Fmedia.beam.usnews.com%2F16%2F8a%2F7f6cb88e4a4bae4b0dd576654aa1%2Fcomplexmathequation.jpg'),
+                backgroundImage: NetworkImage(panel.imageuri),
                 radius: 75.0,
               ),
             ),
@@ -294,6 +306,15 @@ class ClassListItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class Panel {
+  final String title;
+  final String subtitle;
+  final String times;
+  final String imageuri;
+
+  Panel(this.title, this.subtitle, this.times, this.imageuri);
 }
 
 class HeaderRow extends StatelessWidget {
@@ -322,9 +343,4 @@ class HeaderRow extends StatelessWidget {
       ],
     );
   }
-}
-
-void _onItemReceival() {
-  // put incoming json data into classlistitem
-  // push classlistitem into the listview
 }
