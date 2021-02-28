@@ -1,8 +1,12 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -153,6 +157,31 @@ class _loginState extends State<login> {
   }
 }
 
+class MyWebView extends StatelessWidget {
+  final String title;
+  final String selectedUrl;
+
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
+
+  MyWebView({
+    @required this.title,
+    @required this.selectedUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: WebView(
+      initialUrl: selectedUrl,
+      javascriptMode: JavascriptMode.unrestricted,
+      onWebViewCreated: (WebViewController webViewController) {
+        _controller.complete(webViewController);
+      },
+    ));
+  }
+}
+
 // ignore: camel_case_types
 class leARn extends StatelessWidget {
   @override
@@ -161,17 +190,29 @@ class leARn extends StatelessWidget {
       body: Container(
         margin: EdgeInsets.only(top: 50),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             HeaderRow(),
             ClassView(),
             ClassListItem(
-              panel: Panel('McMaster University', "Wednesdays", '6:30 - 9:30', 'https://brighterworld.mcmaster.ca/wp-content/uploads/sites/2/2018/07/20180706-152629-McMaster-University-Campus-0004-1.jpg'),
+              panel: Panel('McMaster University', "Wednesdays", '6:30 - 9:30',
+                  'https://brighterworld.mcmaster.ca/wp-content/uploads/sites/2/2018/07/20180706-152629-McMaster-University-Campus-0004-1.jpg'),
             ),
             // ClassList(
             // panels: List.generate(
             // 4,
             // (index) => Panel('Title', 'Days', 'Times',
             // 'https://i.ytimg.com/vi/9qnaJexpdrM/maxresdefault.jpg'))),
+            Expanded(
+              flex: 1,
+              child: Container(
+                color: Colors.pink,
+                child: MyWebView(
+                  title: "leARn VR",
+                  selectedUrl: "https://learn-f168d.web.app/",
+                ),
+              ),
+            ),
           ],
         ),
       ),
