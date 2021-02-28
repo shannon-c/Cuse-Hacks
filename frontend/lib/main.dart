@@ -164,11 +164,14 @@ class leARn extends StatelessWidget {
           children: [
             HeaderRow(),
             ClassView(),
-            ClassList(
-                panels: List.generate(
-                    1,
-                    (index) => Panel('Title', 'Days', 'Times',
-                        'https://i.ytimg.com/vi/9qnaJexpdrM/maxresdefault.jpg'))),
+            ClassListItem(
+              panel: Panel('McMaster University', "Wednesdays", '6:30 - 9:30', 'https://brighterworld.mcmaster.ca/wp-content/uploads/sites/2/2018/07/20180706-152629-McMaster-University-Campus-0004-1.jpg'),
+            ),
+            // ClassList(
+            // panels: List.generate(
+            // 4,
+            // (index) => Panel('Title', 'Days', 'Times',
+            // 'https://i.ytimg.com/vi/9qnaJexpdrM/maxresdefault.jpg'))),
           ],
         ),
       ),
